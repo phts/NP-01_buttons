@@ -6,6 +6,7 @@ const Gpio = require('onoff').Gpio
 const REPEAT_DELAY = 750
 const APP_DIR = '/home/volumio/NP-01_buttons'
 const BUTTONS = [
+  {pin: 27, clickCmd: 'volumio toggle'},
   {pin: 24, clickCmd: `bash ${APP_DIR}/exit_vu_meter.sh`},
   {pin: 22, clickCmd: 'volumio previous', holdCmd: 'volumio seek minus'},
   {pin: 17, clickCmd: 'volumio next', holdCmd: 'volumio seek plus'},
