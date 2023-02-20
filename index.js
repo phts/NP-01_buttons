@@ -5,12 +5,12 @@ const Gpio = require('onoff').Gpio
 
 const REPEAT_DELAY = 750
 const APP_DIR = '/home/volumio/NP-01_buttons'
-const HOME_BTN_GPIO_PIN = 24
-const PREV_BTN_GPIO_PIN = 22
-const NEXT_BTN_GPIO_PIN = 17
-const homeButton = new Gpio(HOME_BTN_GPIO_PIN, 'in', 'rising', {debounceTimeout: 100})
-const prevButton = new Gpio(PREV_BTN_GPIO_PIN, 'in', 'both', {debounceTimeout: 100})
-const nextButton = new Gpio(NEXT_BTN_GPIO_PIN, 'in', 'both', {debounceTimeout: 100})
+const BUTTONS = [
+  {pin: 24, clickCmd: `bash ${APP_DIR}/exit_vu_meter.sh`},
+  {pin: 22, clickCmd: 'volumio previous', holdCmd: 'volumio seek minus'},
+  {pin: 17, clickCmd: 'volumio next', holdCmd: 'volumio seek plus'},
+]
+
 let holdInterval
 let holded = false
 
@@ -23,19 +23,15 @@ function exec(cmd) {
   }
 }
 
-homeButton.watch((err) => {
-  if (err) {
-    throw err
-  }
-  exec(`bash ${APP_DIR}/exit_vu_meter.sh`)
-})
-;[
-  [prevButton, 'volumio seek minus', 'volumio previous'],
-  [nextButton, 'volumio seek plus', 'volumio next'],
-].forEach(([btn, holdCmd, clickCmd]) => {
+const buttons = BUTTONS.map(({pin, clickCmd, holdCmd}) => {
+  const btn = new Gpio(pin, 'in', holdCmd ? 'both' : 'rising', {debounceTimeout: 100})
   btn.watch((err, pressed) => {
     if (err) {
       throw err
+    }
+    if (!holdCmd) {
+      exec(clickCmd)
+      return
     }
     if (pressed) {
       holdInterval = setInterval(() => {
@@ -50,10 +46,9 @@ homeButton.watch((err) => {
     }
     holded = false
   })
+  return btn
 })
 
 process.on('SIGINT', () => {
-  homeButton.unexport()
-  prevButton.unexport()
-  nextButton.unexport()
+  buttons.forEach((x) => x.unexport())
 })
