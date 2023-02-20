@@ -20,6 +20,7 @@ const BUTTONS = [
 
 let holdInterval
 let holded = false
+let pressed = false
 
 function exec(cmd) {
   try {
@@ -32,7 +33,7 @@ function exec(cmd) {
 
 const buttons = BUTTONS.map(({pin, clickCmd, holdCmd, holdOnce}) => {
   const btn = new Gpio(pin, 'in', holdCmd ? 'both' : 'rising', {debounceTimeout: 100})
-  btn.watch((err, pressed) => {
+  btn.watch((err, value) => {
     if (err) {
       throw err
     }
@@ -40,7 +41,8 @@ const buttons = BUTTONS.map(({pin, clickCmd, holdCmd, holdOnce}) => {
       exec(clickCmd)
       return
     }
-    if (pressed) {
+    if (value) {
+      pressed = true
       holdInterval = setInterval(() => {
         holded = true
         if (holdOnce) {
@@ -51,9 +53,10 @@ const buttons = BUTTONS.map(({pin, clickCmd, holdCmd, holdOnce}) => {
       return
     }
     clearInterval(holdInterval)
-    if (!holded) {
+    if (pressed && !holded) {
       exec(clickCmd)
     }
+    pressed = false
     holded = false
   })
   return btn
