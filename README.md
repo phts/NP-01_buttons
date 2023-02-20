@@ -8,7 +8,7 @@ Handlers for front panel buttons used by [PHTS NP-01].
 cd /home/volumio
 git clone https://github.com/phts/NP-01_buttons.git
 cd NP-01_buttons
-npm i --omit=dev
+npm i --only=prod
 ```
 
 ## Usage
