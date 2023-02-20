@@ -1,6 +1,6 @@
 # PHTS NP-01: buttons
 
-Front panel button handlers used by [PHTS NP-01].
+Handlers for front panel buttons used by [PHTS NP-01].
 
 ## Install
 
