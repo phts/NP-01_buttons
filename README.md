@@ -8,7 +8,7 @@ Home button handler used by [PHTS NP-01].
 cd /home/volumio
 git clone https://github.com/phts/NP-01_home-button.git
 cd NP-01_home-button
-npm i
+npm i --omit=dev
 ```
 
 ## Usage

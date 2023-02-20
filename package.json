@@ -5,5 +5,11 @@
   "private": true,
   "dependencies": {
     "onoff": "^6.0.3"
+  },
+  "devDependencies": {
+    "@phts/eslint-config": "^2.0.0",
+    "@phts/prettier-config": "^1.1.1",
+    "eslint": "^8.34.0",
+    "prettier": "^2.8.4"
   }
 }

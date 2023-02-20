@@ -1,0 +1,3 @@
+{
+  "extends": ["@phts", "@phts/eslint-config/addons/node",  "@phts/eslint-config/addons/prettier"]
+}
