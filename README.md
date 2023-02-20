@@ -18,7 +18,7 @@ npm i --omit=dev
 ```sh
 ...
 
-sudo bash /home/volumio/NP-01_buttons/run.sh >/home/volumio/NP-01_buttons/rc.log 2>&1 &
+sudo bash /home/volumio/NP-01_buttons/run.sh &
 
 ...
 ```
