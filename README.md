@@ -1,13 +1,13 @@
-# home-button
+# PHTS NP-01: buttons
 
-Home button handler used by [PHTS NP-01].
+Front panel button handlers used by [PHTS NP-01].
 
 ## Install
 
 ```sh
 cd /home/volumio
-git clone https://github.com/phts/NP-01_home-button.git
-cd NP-01_home-button
+git clone https://github.com/phts/NP-01_buttons.git
+cd NP-01_buttons
 npm i --omit=dev
 ```
 
@@ -18,7 +18,7 @@ npm i --omit=dev
 ```sh
 ...
 
-sudo bash /home/volumio/NP-01_home-button/run.sh >/home/volumio/NP-01_home-button/rc.log 2>&1 &
+sudo bash /home/volumio/NP-01_buttons/run.sh >/home/volumio/NP-01_buttons/rc.log 2>&1 &
 
 ...
 ```

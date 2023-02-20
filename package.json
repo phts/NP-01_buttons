@@ -1,7 +1,7 @@
 {
-  "name": "home-button",
+  "name": "buttons",
   "version": "1.0.0",
-  "description": "Home button handler used by PHTS NP-01",
+  "description": "Front panel button handlers used by PHTS NP-01",
   "private": true,
   "dependencies": {
     "onoff": "^6.0.3"
