@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
-set -e
+set -ex
 
 cd /home/volumio/NP-01_buttons
-npm i --omit=dev
+{
+  npm i --omit=dev
+} || {
+  sleep 10 && npm i --omit=dev
+}
 node index.js
