@@ -16,7 +16,7 @@ let holded = false
 
 function exec(cmd) {
   try {
-    execSync(`${cmd} >> ${APP_DIR}/buttons.log 2>&1`)
+    execSync(cmd)
   } catch (e) {
     console.error(e.stdout.toString())
     console.error(e.stderr.toString())

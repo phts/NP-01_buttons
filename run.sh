@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -ex
 
-{
+DEBUG=false
+
+run() {
   cd /home/volumio/NP-01_buttons
   {
     npm i --only=prod
@@ -9,4 +11,10 @@ set -ex
     sleep 10 && npm i --only=prod
   }
   node index.js
-} >/home/volumio/NP-01_buttons/run.log 2>&1
+}
+
+if [ "$DEBUG" = true ]; then
+  run >/home/volumio/NP-01_buttons/run.log 2>&1
+else
+  run
+fi
