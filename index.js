@@ -13,7 +13,7 @@ const BUTTONS = [
     holdCmd: 'volumio clear && sleep 1 && systemctl reboot',
     holdOnce: true,
   },
-  {pin: 24, clickCmd: `bash ${APP_DIR}/exit_vu_meter.sh`},
+  {pin: 24, clickCmd: `bash ${APP_DIR}/commands/exit_vu_meter.sh`},
   {pin: 22, clickCmd: 'volumio previous', holdCmd: 'volumio seek minus'},
   {pin: 17, clickCmd: 'volumio next', holdCmd: 'volumio seek plus'},
 ]
