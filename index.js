@@ -23,10 +23,10 @@ let holded = false
 let pressed = false
 
 function exec(cmd) {
-  console.log(`exec(${cmd})`)
+  console.debug(`exec(${cmd})`)
   try {
     const output = execSync(cmd)
-    console.log(output.toString())
+    console.debug(output.toString())
   } catch (e) {
     console.error(e.stdout.toString())
     console.error(e.stderr.toString())
@@ -36,7 +36,7 @@ function exec(cmd) {
 const buttons = BUTTONS.map(({pin, clickCmd, holdCmd, holdOnce}) => {
   const btn = new Gpio(pin, 'in', holdCmd ? 'both' : 'rising', {debounceTimeout: 100})
   btn.watch((err, value) => {
-    console.log({pin, clickCmd, holdCmd, holdOnce, pressed, holded, value})
+    console.debug({pin, clickCmd, holdCmd, holdOnce, pressed, holded, value})
     if (err) {
       throw err
     }
@@ -66,6 +66,6 @@ const buttons = BUTTONS.map(({pin, clickCmd, holdCmd, holdOnce}) => {
 })
 
 process.on('SIGINT', () => {
-  console.log('SIGINT')
+  console.debug('SIGINT')
   buttons.forEach((x) => x.unexport())
 })
