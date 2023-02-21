@@ -5,11 +5,6 @@ DEBUG=false
 
 run() {
   cd /home/volumio/NP-01_buttons
-  {
-    npm i --only=prod
-  } || {
-    sleep 10 && npm i --only=prod
-  }
   node index.js
 }
 
