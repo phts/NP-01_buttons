@@ -4,7 +4,8 @@
   "description": "Handlers for front panel buttons used by PHTS NP-01",
   "private": true,
   "dependencies": {
-    "onoff": "^6.0.3"
+    "onoff": "^6.0.3",
+    "socket.io-client": "^1.7.4"
   },
   "devDependencies": {
     "@phts/eslint-config": "^2.0.0",
