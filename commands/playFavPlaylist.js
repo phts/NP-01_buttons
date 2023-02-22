@@ -14,7 +14,6 @@ function showProgressBar() {
 }
 
 showProgressBar()
-execSync('volumio stop')
 execSync('volumio clear')
 socket.emit('setRandom', {value: true})
 socket.emit('setRepeat', {value: false})
