@@ -2,30 +2,7 @@
 
 const {execSync} = require('child_process')
 const Gpio = require('onoff').Gpio
-
-const REPEAT_DELAY = 750
-const APP_DIR = '/home/volumio/NP-01_buttons'
-const BUTTONS = [
-  {
-    pin: 27,
-    clickCmd: 'volumio toggle',
-    holdCmd: [`node ${APP_DIR}/commands/playFavPlaylist.js`],
-    holdOnce: true,
-  },
-  {
-    pin: 26,
-    clickCmd: 'systemctl poweroff',
-    holdCmd: 'systemctl restart volumio',
-    holdOnce: true,
-  },
-  {
-    pin: 24,
-    clickCmd: `bash ${APP_DIR}/commands/exit_vu_meter.sh`,
-    holdCmd: ['volumio repeat', 'volumio repeat', 'volumio repeat && volumio random'],
-  },
-  {pin: 22, clickCmd: 'volumio previous', holdCmd: 'volumio seek minus'},
-  {pin: 17, clickCmd: 'volumio next', holdCmd: 'volumio seek plus'},
-]
+const {BUTTONS, REPEAT_DELAY} = require('./settings')
 
 let holdInterval
 let holded = false
