@@ -1,6 +1,6 @@
 const {execSync} = require('child_process')
 const socket = require('socket.io-client').connect('http://localhost:3000')
-const PLAYLIST = 'NP-01'
+const PLAYLIST = process.argv[2] || 'NP-01'
 
 function showProgressBar() {
   const bar = '####'
