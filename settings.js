@@ -13,7 +13,7 @@ const BUTTONS = [
   {
     pin: GPIO.buttons.play,
     clickCmd: 'volumio toggle',
-    holdCmd: [`node ${APP_DIR}/commands/playFavPlaylist.js`],
+    holdCmd: [`node ${APP_DIR}/commands/play-fav-playlist.js`],
     holdOnce: true,
   },
   {
