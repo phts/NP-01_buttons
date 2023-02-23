@@ -1,18 +1,28 @@
 'use strict'
 
-const {execSync} = require('child_process')
+const {execSync: execSyncProc, exec: execProc} = require('child_process')
 const Gpio = require('onoff').Gpio
-const {BUTTONS, REPEAT_DELAY} = require('./settings')
+const {BUTTONS, REPEAT_DELAY, GPIO} = require('./settings')
+const playLed = new Gpio(GPIO.leds.play, 'out')
 
 let holdInterval
 let holded = false
 let pressed = false
 let holdCmdIndex = 0
 
-function exec(cmd) {
+function exec(cmd, async) {
   console.debug(`exec(${cmd})`)
   try {
-    const output = execSync(cmd)
+    const output = async
+      ? execProc(cmd, (error, stdout, stderr) => {
+          if (error) {
+            console.debug(`exec error: ${error}`)
+            return
+          }
+          console.debug(`stdout: ${stdout.toString()}`)
+          console.debug(`stderr: ${stderr.toString()}`)
+        })
+      : execSyncProc(cmd)
     console.debug(output.toString())
   } catch (e) {
     console.error(e.stdout.toString())
@@ -20,10 +30,20 @@ function exec(cmd) {
   }
 }
 
-const buttons = BUTTONS.map(({pin, clickCmd, holdCmd, holdOnce}) => {
+function explodeCmd(cmd, {playLed}) {
+  if (cmd.ifPlay) {
+    cmd = playLed.readSync() ? cmd.ifPlay : cmd.ifPause
+  }
+  if (Array.isArray(cmd) || typeof cmd === 'string') {
+    cmd = {cmd}
+  }
+  return cmd
+}
+
+const buttons = BUTTONS.map(({pin, clickCmd, holdCmd}) => {
   const btn = new Gpio(pin, 'in', holdCmd ? 'both' : 'rising', {debounceTimeout: 100})
   btn.watch((err, value) => {
-    console.debug({pin, clickCmd, holdCmd, holdOnce, pressed, holded, value})
+    console.debug({pin, clickCmd, holdCmd, pressed, holded, value})
     if (err) {
       throw err
     }
@@ -33,18 +53,18 @@ const buttons = BUTTONS.map(({pin, clickCmd, holdCmd, holdOnce}) => {
     }
     if (value) {
       pressed = true
-      holdCmdIndex = 0
+      holdCmdIndex = -1
       holdInterval = setInterval(() => {
         holded = true
-        let cmd = holdCmd
-        if (holdOnce) {
+        const cmd = explodeCmd(holdCmd, {playLed})
+        if (cmd.once) {
           clearInterval(holdInterval)
         }
-        if (Array.isArray(holdCmd)) {
-          cmd = holdCmd[holdCmdIndex]
-          holdCmdIndex = (holdCmdIndex + 1) % holdCmd.length
+        if (Array.isArray(cmd.cmd)) {
+          holdCmdIndex = (holdCmdIndex + 1) % cmd.cmd.length
+          cmd.cmd = cmd.cmd[holdCmdIndex]
         }
-        exec(cmd)
+        exec(cmd.cmd, cmd.async)
       }, REPEAT_DELAY)
       return
     }

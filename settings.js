@@ -7,20 +7,28 @@ const GPIO = {
     previous: 22,
     next: 17,
   },
+  leds: {
+    play: 4,
+  },
 }
 
 const BUTTONS = [
   {
     pin: GPIO.buttons.play,
     clickCmd: 'volumio toggle',
-    holdCmd: [`node ${APP_DIR}/commands/play-playlist.js`],
-    holdOnce: true,
+    holdCmd: {
+      ifPlay: {
+        cmd: `node ${APP_DIR}/commands/toggle-stop-after-current.js`,
+        once: true,
+        async: true,
+      },
+      ifPause: {cmd: `node ${APP_DIR}/commands/play-playlist.js`, once: true},
+    },
   },
   {
     pin: GPIO.buttons.shutdown,
     clickCmd: 'systemctl poweroff',
-    holdCmd: 'systemctl restart volumio',
-    holdOnce: true,
+    holdCmd: {cmd: 'systemctl restart volumio', once: true},
   },
   {
     pin: GPIO.buttons.action,
@@ -33,5 +41,6 @@ const BUTTONS = [
 
 module.exports = {
   BUTTONS,
+  GPIO,
   REPEAT_DELAY: 750,
 }
