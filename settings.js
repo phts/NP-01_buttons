@@ -1,3 +1,5 @@
+'use strict'
+
 const APP_DIR = '/home/volumio/NP-01_buttons'
 const GPIO = {
   buttons: {

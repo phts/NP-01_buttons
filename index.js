@@ -3,6 +3,7 @@
 const {execSync: execSyncProc, exec: execProc} = require('child_process')
 const Gpio = require('onoff').Gpio
 const {BUTTONS, REPEAT_DELAY, GPIO} = require('./settings')
+
 const playLed = new Gpio(GPIO.leds.play, 'out')
 
 let holdInterval

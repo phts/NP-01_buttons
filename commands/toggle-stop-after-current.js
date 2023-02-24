@@ -1,4 +1,6 @@
+'use strict'
 const {execSync} = require('child_process')
+
 const FILENAME = '/stop-after-current.js'
 
 const ids = execSync(`ps ax | grep "${FILENAME}"  | grep -v grep | awk '{print $1}'`)
@@ -11,7 +13,9 @@ if (ids.length) {
   ids.forEach((id) => {
     try {
       execSync(`kill ${id}`)
-    } catch (e) {}
+    } catch (e) {
+      // ignore
+    }
   })
   const socket = require('socket.io-client').connect('http://localhost:3000')
   socket.emit('pushToastMessage', {type: 'info', title: 'Stop after current', message: 'Off'})

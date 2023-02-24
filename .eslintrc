@@ -1,6 +1,6 @@
 {
   "extends": ["@phts", "@phts/eslint-config/addons/node", "@phts/eslint-config/addons/prettier"],
   "rules": {
-    "no-console": [2, {"allow": "log"}]
+    "no-console": [2, {"allow": ["debug", "info", "error"]}]
   }
 }
