@@ -17,8 +17,6 @@ function showProgressBar() {
 
 showProgressBar()
 execSync('volumio clear')
-socket.emit('setRandom', {value: true})
-socket.emit('setRepeat', {value: false})
 
 const timeout = setTimeout(() => {
   process.exit()
@@ -27,6 +25,8 @@ const timeout = setTimeout(() => {
 socket.emit('enqueue', {name: PLAYLIST})
 socket.on('pushEnqueue', () => {
   console.info(`Added playlist "${PLAYLIST}" to queue`)
+  socket.emit('setRandom', {value: true})
+  socket.emit('setRepeat', {value: false})
   execSync('volumio next')
   clearTimeout(timeout)
   process.exit()
