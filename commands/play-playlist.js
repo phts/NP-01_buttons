@@ -23,11 +23,13 @@ const timeout = setTimeout(() => {
 }, 60000)
 
 socket.emit('enqueue', {name: PLAYLIST})
-socket.on('pushEnqueue', () => {
-  console.info(`Added playlist "${PLAYLIST}" to queue`)
+socket.on('pushEnqueue', (data) => {
+  console.info(`Added playlist "${PLAYLIST}" with ${data.amount} items to queue`)
   socket.emit('setRandom', {value: true})
   socket.emit('setRepeat', {value: false})
-  execSync('volumio next')
-  clearTimeout(timeout)
-  process.exit()
+  setTimeout(() => {
+    socket.emit('play', {value: Math.floor(Math.random() * data.amount)})
+    clearTimeout(timeout)
+    process.exit()
+  }, 500)
 })
