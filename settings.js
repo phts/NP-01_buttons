@@ -1,6 +1,6 @@
 'use strict'
 
-const APP_DIR = '/home/volumio/NP-01_buttons'
+const APP_DIR = __dirname
 const GPIO = {
   buttons: {
     play: 27,
@@ -24,7 +24,10 @@ const BUTTONS = [
         once: true,
         async: true,
       },
-      ifPause: {cmd: `node ${APP_DIR}/commands/play-playlist.js`, once: true},
+      ifPause: {
+        cmd: `node ${APP_DIR}/commands/play-playlist.js "$(cat ${APP_DIR}/commands/selected-playlist.txt)"`,
+        once: true,
+      },
     },
   },
   {
@@ -37,8 +40,28 @@ const BUTTONS = [
     clickCmd: `bash ${APP_DIR}/commands/exit_vu_meter.sh`,
     holdCmd: ['volumio repeat', 'volumio repeat', 'volumio repeat && volumio random'],
   },
-  {pin: GPIO.buttons.previous, clickCmd: 'volumio previous', holdCmd: 'volumio seek minus'},
-  {pin: GPIO.buttons.next, clickCmd: 'volumio next', holdCmd: 'volumio seek plus'},
+  {
+    pin: GPIO.buttons.previous,
+    clickCmd: 'volumio previous',
+    holdCmd: {
+      ifPlay: 'volumio seek minus',
+      ifPause: {
+        cmd: `node ${APP_DIR}/commands/select-playlist.js prev`,
+        once: true,
+      },
+    },
+  },
+  {
+    pin: GPIO.buttons.next,
+    clickCmd: 'volumio next',
+    holdCmd: {
+      ifPlay: 'volumio seek plus',
+      ifPause: {
+        cmd: `node ${APP_DIR}/commands/select-playlist.js next`,
+        once: true,
+      },
+    },
+  },
 ]
 
 module.exports = {
