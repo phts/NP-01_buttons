@@ -11,10 +11,10 @@ let holded = false
 let pressed = false
 let holdCmdIndex = 0
 
-function exec(cmd, async) {
+function exec(cmd, opts = {}) {
   console.debug(`exec(${cmd})`)
   try {
-    const output = async
+    const output = opts.async
       ? execProc(cmd, (error, stdout, stderr) => {
           if (error) {
             console.debug(`exec error: ${error}`)
@@ -23,7 +23,7 @@ function exec(cmd, async) {
           console.debug(`stdout: ${stdout.toString()}`)
           console.debug(`stderr: ${stderr.toString()}`)
         })
-      : execSyncProc(cmd)
+      : execSyncProc(cmd, {timeout: opts.long ? 0 : 3000})
     console.debug(output.toString())
   } catch (e) {
     console.error(e.stdout.toString())
@@ -66,7 +66,7 @@ const buttons = BUTTONS.map(({pin, clickCmd, holdCmd}) => {
           holdCmdIndex = (holdCmdIndex + 1) % cmd.cmd.length
           cmd.cmd = cmd.cmd[holdCmdIndex]
         }
-        exec(cmd.cmd, cmd.async)
+        exec(cmd.cmd, {async: cmd.async, long: cmd.long})
       }, REPEAT_DELAY)
       return
     }
