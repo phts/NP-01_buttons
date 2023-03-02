@@ -55,6 +55,7 @@ const buttons = BUTTONS.map(({pin, clickCmd, holdCmd}) => {
     if (value) {
       pressed = true
       holdCmdIndex = -1
+      clearInterval(holdInterval)
       holdInterval = setInterval(() => {
         holded = true
         const cmd = explodeCmd(holdCmd, {playLed})
