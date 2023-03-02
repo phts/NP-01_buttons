@@ -26,8 +26,8 @@ function exec(cmd, opts = {}) {
       : execSyncProc(cmd, {timeout: opts.long ? 0 : 3000})
     console.debug(output.toString())
   } catch (e) {
-    console.error(e.stdout.toString())
-    console.error(e.stderr.toString())
+    console.error(e.stderr ? e.stderr.toString() : e)
+    console.error(e.stdout ? e.stdout.toString() : e)
   }
 }
 
