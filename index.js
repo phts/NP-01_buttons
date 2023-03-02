@@ -83,4 +83,5 @@ const buttons = BUTTONS.map(({pin, clickCmd, holdCmd}) => {
 process.on('SIGINT', () => {
   console.debug('SIGINT')
   buttons.forEach((x) => x.unexport())
+  process.exit()
 })
