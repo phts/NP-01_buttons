@@ -42,7 +42,7 @@ function explodeCmd(cmd, {playLed}) {
 }
 
 const buttons = BUTTONS.map(({pin, clickCmd, holdCmd}) => {
-  const btn = new Gpio(pin, 'in', holdCmd ? 'both' : 'rising', {debounceTimeout: 100})
+  const btn = new Gpio(pin, 'in', holdCmd ? 'both' : 'rising', {debounceTimeout: 10})
   btn.watch((err, value) => {
     console.debug({pin, clickCmd, holdCmd, pressed, holded, value})
     if (err) {
