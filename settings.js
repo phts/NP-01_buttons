@@ -34,7 +34,7 @@ const BUTTONS = [
   {
     pin: GPIO.buttons.shutdown,
     clickCmd: 'systemctl poweroff',
-    holdCmd: {cmd: 'systemctl restart volumio', once: true},
+    holdCmd: {cmd: 'systemctl reboot', once: true},
   },
   {
     pin: GPIO.buttons.action,
