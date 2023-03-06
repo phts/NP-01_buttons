@@ -6,11 +6,11 @@ const PLAYLIST = process.argv[2] || 'NP-01'
 
 function showProgressBar() {
   const bar = '####'
-  socket.emit('pushToastMessage', {type: 'info', title: bar})
+  socket.emit('pushToastMessage', {type: 'info', title: PLAYLIST, message: bar})
 
   let i = 2
   setInterval(() => {
-    socket.emit('pushToastMessage', {type: 'info', title: bar.repeat(i)})
+    socket.emit('pushToastMessage', {type: 'info', title: PLAYLIST, message: bar.repeat(i)})
     i++
   }, 6000)
 }
