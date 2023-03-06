@@ -1,6 +1,7 @@
 'use strict'
 
 const APP_DIR = __dirname
+const EXIT_VU_CMD = `bash ${APP_DIR}/commands/exit_vu_meter.sh || true`
 const GPIO = {
   buttons: {
     play: 27,
@@ -20,7 +21,7 @@ const BUTTONS = [
     clickCmd: 'volumio toggle',
     holdCmd: {
       ifPlay: {
-        cmd: `node ${APP_DIR}/commands/toggle-stop-after-current.js`,
+        cmd: `${EXIT_VU_CMD}; node ${APP_DIR}/commands/toggle-stop-after-current.js`,
         once: true,
         async: true,
       },
@@ -38,8 +39,12 @@ const BUTTONS = [
   },
   {
     pin: GPIO.buttons.action,
-    clickCmd: `bash ${APP_DIR}/commands/exit_vu_meter.sh`,
-    holdCmd: ['volumio repeat', 'volumio repeat', 'volumio repeat && volumio random'],
+    clickCmd: EXIT_VU_CMD,
+    holdCmd: [
+      `${EXIT_VU_CMD}; volumio repeat`,
+      'volumio repeat',
+      'volumio repeat && volumio random',
+    ],
   },
   {
     pin: GPIO.buttons.previous,
