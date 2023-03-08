@@ -22,5 +22,11 @@ if (ids.length) {
   process.exit()
 } else {
   // off
-  execSync(`node ${__dirname}/${FILENAME}`)
+  try {
+    const output = execSync(`node ${__dirname}/${FILENAME}`)
+    console.debug(output.toString())
+  } catch (e) {
+    console.error(e.stderr ? e.stderr.toString() : e)
+    console.error(e.stdout ? e.stdout.toString() : e)
+  }
 }
