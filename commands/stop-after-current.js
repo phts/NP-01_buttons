@@ -32,11 +32,7 @@ socket.on('pushState', ({status, service, uri}) => {
     return
   }
   if (service === 'webradio') {
-    if (firstRun) {
-      showMsgAndExit('error', 'Not possible for web radio')
-    } else {
-      showMsgAndExit('info', 'Off')
-    }
+    showMsgAndExit('error', 'Not supported')
     return
   }
   if (firstRun) {
