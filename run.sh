@@ -11,5 +11,5 @@ run() {
 if [ "$DEBUG" = true ]; then
   run >>/home/volumio/NP-01_buttons/run.log 2>&1
 else
-  run
+  run &>/dev/null
 fi
