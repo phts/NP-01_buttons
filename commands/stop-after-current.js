@@ -3,12 +3,17 @@ const socket = require('socket.io-client').connect('http://localhost:3000')
 
 let currentTrack = null
 let firstRun = true
+let exiting = false
 
 function showMsg(type, message) {
   socket.emit('pushToastMessage', {type, title: 'Stop after current', message})
 }
 
 function showMsgAndExit(...args) {
+  if (exiting) {
+    return
+  }
+  exiting = true
   showMsg(...args)
   setTimeout(() => {
     process.exit()
