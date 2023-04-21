@@ -11,7 +11,7 @@ const GPIO = {
     next: 17,
   },
   leds: {
-    play: 4,
+    play: 12,
   },
 }
 
