@@ -3,6 +3,7 @@ const {execSync} = require('child_process')
 const socket = require('socket.io-client').connect('http://localhost:3000')
 
 const PLAYLIST = process.argv[2] || 'NP-01'
+const TIMEOUT = 120000
 
 function showProgressBar() {
   const bar = '####'
@@ -20,7 +21,7 @@ execSync('volumio clear')
 
 const timeout = setTimeout(() => {
   process.exit()
-}, 60000)
+}, TIMEOUT)
 
 socket.emit('enqueue', {name: PLAYLIST})
 socket.on('pushEnqueue', (data) => {
