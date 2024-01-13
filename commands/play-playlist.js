@@ -6,7 +6,7 @@ const PLAYLIST = process.argv[2] || 'NP-01'
 const TIMEOUT = 120000
 
 function showProgressBar() {
-  const bar = '####'
+  const bar = '##'
   socket.emit('pushToastMessage', {type: 'info', title: PLAYLIST, message: bar})
 
   let i = 2
