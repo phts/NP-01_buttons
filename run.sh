@@ -5,7 +5,7 @@ DEBUG=false
 
 run() {
   cd /home/volumio/NP-01_buttons
-  node index.js
+  node app/index.js
 }
 
 if [ "$DEBUG" = true ]; then
