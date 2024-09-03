@@ -2,6 +2,7 @@
 
 const APP_DIR = __dirname
 const EXIT_VU_CMD = `bash ${APP_DIR}/commands/exit_vu_meter.sh || true`
+const TOGGLE_VU_CMD = `bash ${APP_DIR}/commands/toggle_vu_meter.sh || true`
 const GPIO = {
   buttons: {
     play: 27,
@@ -39,7 +40,7 @@ const BUTTONS = [
   },
   {
     pin: GPIO.buttons.action,
-    clickCmd: EXIT_VU_CMD,
+    clickCmd: TOGGLE_VU_CMD,
     holdCmd: [
       `${EXIT_VU_CMD}; volumio repeat`,
       'volumio repeat',
