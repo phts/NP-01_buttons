@@ -41,11 +41,7 @@ const BUTTONS = [
   {
     pin: GPIO.buttons.action,
     clickCmd: TOGGLE_VU_CMD,
-    holdCmd: [
-      `${EXIT_VU_CMD}; volumio repeat`,
-      'volumio repeat',
-      'volumio repeat && volumio random',
-    ],
+    holdCmd: [`${EXIT_VU_CMD}; volumio repeat`, 'volumio repeat', 'volumio repeat && volumio random'],
   },
   {
     pin: GPIO.buttons.previous,

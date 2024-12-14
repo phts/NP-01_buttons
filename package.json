@@ -11,9 +11,10 @@
     "socket.io-client": "^1.7.4"
   },
   "devDependencies": {
-    "@phts/eslint-config": "^2.0.0",
-    "@phts/prettier-config": "^1.1.1",
-    "eslint": "^8.34.0",
-    "prettier": "^2.8.4"
+    "@phts/eslint-config": "^2.1.1",
+    "@phts/prettier-config": "^1.2.0",
+    "eslint": "^8.57.1",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.4.2"
   }
 }
