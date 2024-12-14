@@ -71,4 +71,5 @@ module.exports = {
   BUTTONS,
   GPIO,
   REPEAT_DELAY: 750,
+  VOLUMIO_SOCKET_URL: 'http://localhost:3000',
 }

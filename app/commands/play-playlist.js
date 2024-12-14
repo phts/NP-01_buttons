@@ -1,6 +1,6 @@
 'use strict'
 const {execSync} = require('child_process')
-const socket = require('socket.io-client').connect('http://localhost:3000')
+const socket = require('socket.io-client').connect(require('../settings').VOLUMIO_SOCKET_URL)
 
 const PLAYLIST = process.argv[2] || 'NP-01'
 const TIMEOUT = 120000

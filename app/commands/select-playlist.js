@@ -1,7 +1,7 @@
 'use strict'
 const fs = require('fs')
 const path = require('path')
-const socket = require('socket.io-client').connect('http://localhost:3000')
+const socket = require('socket.io-client').connect(require('../settings').VOLUMIO_SOCKET_URL)
 
 const DIRECTION = process.argv[2] || 'next'
 const PLAYLIST_TXT = path.resolve(__dirname, 'selected-playlist.txt')

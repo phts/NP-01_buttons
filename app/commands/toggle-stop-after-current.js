@@ -1,5 +1,5 @@
 'use strict'
 
-const socket = require('socket.io-client').connect('http://localhost:3000')
+const socket = require('socket.io-client').connect(require('../settings').VOLUMIO_SOCKET_URL)
 
 socket.emit('toggleStopAfterCurrent')
