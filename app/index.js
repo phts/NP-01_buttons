@@ -1,10 +1,11 @@
 'use strict'
 
 const {execSync: execSyncProc, exec: execProc} = require('child_process')
-const Gpio = require('onoff').Gpio
-const {BUTTONS, REPEAT_DELAY, GPIO} = require('./settings')
+const io = require('socket.io-client')
+const Gpio = require('./onoff_shim').Gpio
+const {BUTTONS, REPEAT_DELAY, VOLUMIO_SOCKET_URL} = require('./settings')
 
-const playLed = new Gpio(GPIO.leds.play, 'out')
+const socket = io.connect(VOLUMIO_SOCKET_URL)
 
 let holdInterval
 let holded = false
@@ -31,14 +32,27 @@ function exec(cmd, opts = {}) {
   }
 }
 
-function explodeCmd(cmd, {playLed}) {
-  if (cmd.ifPlay) {
-    cmd = playLed.readSync() ? cmd.ifPlay : cmd.ifPause
-  }
+function normalizeCmd(cmd) {
   if (Array.isArray(cmd) || typeof cmd === 'string') {
-    cmd = {cmd}
+    return {cmd}
   }
   return cmd
+}
+
+function explodeCmd(cmd) {
+  if (cmd.ifPlay) {
+    return new Promise((resolve, reject) => {
+      const timeout = setTimeout(() => {
+        reject('Failed to receive `pushState` event from Volumio')
+      }, 5000)
+      socket.emit('getState')
+      socket.once('pushState', (state) => {
+        clearTimeout(timeout)
+        resolve(normalizeCmd(state.status === 'play' ? cmd.ifPlay : cmd.ifPause))
+      })
+    })
+  }
+  return Promise.resolve(normalizeCmd(cmd))
 }
 
 const buttons = BUTTONS.map(({pin, clickCmd, holdCmd}) => {
@@ -56,9 +70,9 @@ const buttons = BUTTONS.map(({pin, clickCmd, holdCmd}) => {
       pressed = true
       holdCmdIndex = -1
       clearInterval(holdInterval)
-      holdInterval = setInterval(() => {
+      holdInterval = setInterval(async () => {
         holded = true
-        const cmd = explodeCmd(holdCmd, {playLed})
+        const cmd = await explodeCmd(holdCmd)
         if (cmd.once) {
           clearInterval(holdInterval)
         }
