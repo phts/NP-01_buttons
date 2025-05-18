@@ -5,6 +5,7 @@ DEBUG=false
 
 run() {
   cd /home/volumio/NP-01_buttons
+  rm -f app/commands/screen.txt
   node app/index.js
 }
 
