@@ -1,11 +1,9 @@
 'use strict'
 
 const {execSync: execSyncProc, exec: execProc} = require('child_process')
-const io = require('socket.io-client')
+const {socket} = require('./helpers/volumioSocket')
 const Gpio = require('./onoff_shim').Gpio
-const {BUTTONS, REPEAT_DELAY, VOLUMIO_SOCKET_URL} = require('./settings')
-
-const socket = io.connect(VOLUMIO_SOCKET_URL)
+const {BUTTONS, REPEAT_DELAY} = require('./settings')
 
 let holdInterval
 let holded = false

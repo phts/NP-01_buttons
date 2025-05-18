@@ -1,5 +1,7 @@
 'use strict'
 
-const socket = require('socket.io-client').connect(require('../settings').VOLUMIO_SOCKET_URL)
+const {singleAction} = require('../helpers/volumioSocket')
 
-socket.emit('toggleStopAfterCurrent')
+singleAction((socket) => {
+  socket.emit('toggleStopAfterCurrent')
+})
