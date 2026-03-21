@@ -25,5 +25,21 @@ sudo bash /home/volumio/NP-01_buttons/run.sh &
 ...
 ```
 
+## Debug and development
+
+1. Find process `node app/index.js` and kill it
+
+   ```sh
+   ps -elf | grep app/index.js
+   sudo kill <PID>
+   ```
+
+2. Run this app locally
+
+   ```sh
+   cd ~/NP-01_buttons
+   sudo node app/index.js
+   ```
+
 [PHTS NP-01]: https://tsaryk.com/NP-01
 [IR controller]: https://github.com/phts/NP-01_IR-controller-configs

@@ -41,7 +41,14 @@ const BUTTONS = [
   {
     pin: GPIO.buttons.action,
     clickCmd: TOGGLE_SCREEN_CMD,
-    holdCmd: [`${SHOW_TRACK_SCREEN_CMD}; volumio repeat`, 'volumio repeat', 'volumio repeat && volumio random'],
+    holdCmd: {
+      delay: 2500,
+      ifScreen: {
+        track: [`${SHOW_TRACK_SCREEN_CMD}; volumio repeat`, 'volumio repeat', 'volumio repeat && volumio random'],
+        vu: [`${SHOW_TRACK_SCREEN_CMD}; volumio repeat`, 'volumio repeat', 'volumio repeat && volumio random'],
+        idle: `node ${APP_DIR}/commands/idle-screen-image.js next`,
+      },
+    },
   },
   {
     pin: GPIO.buttons.previous,

@@ -4,6 +4,7 @@ const {execSync: execSyncProc, exec: execProc} = require('child_process')
 const {socket} = require('./helpers/volumioSocket')
 const Gpio = require('./onoff_shim').Gpio
 const {BUTTONS, REPEAT_DELAY} = require('./settings')
+const {readScreenMode} = require('./helpers/screenMode')
 
 let holdInterval
 let holded = false
@@ -31,13 +32,16 @@ function exec(cmd, opts = {}) {
 }
 
 function normalizeCmd(cmd) {
+  if (!cmd) {
+    return {cmd: null}
+  }
   if (Array.isArray(cmd) || typeof cmd === 'string') {
     return {cmd}
   }
   return cmd
 }
 
-function explodeCmd(cmd) {
+async function explodeCmd(cmd) {
   if (cmd.ifPlay) {
     return new Promise((resolve, reject) => {
       const timeout = setTimeout(() => {
@@ -50,7 +54,11 @@ function explodeCmd(cmd) {
       })
     })
   }
-  return Promise.resolve(normalizeCmd(cmd))
+  if (cmd.ifScreen) {
+    const screenMode = readScreenMode()
+    return normalizeCmd(cmd.ifScreen[screenMode])
+  }
+  return normalizeCmd(cmd)
 }
 
 const buttons = BUTTONS.map(({pin, clickCmd, holdCmd}) => {
@@ -71,6 +79,10 @@ const buttons = BUTTONS.map(({pin, clickCmd, holdCmd}) => {
       holdInterval = setInterval(async () => {
         holded = true
         const cmd = await explodeCmd(holdCmd)
+        if (!cmd.cmd) {
+          clearInterval(holdInterval)
+          return
+        }
         if (cmd.once) {
           clearInterval(holdInterval)
         }
@@ -79,7 +91,7 @@ const buttons = BUTTONS.map(({pin, clickCmd, holdCmd}) => {
           cmd.cmd = cmd.cmd[holdCmdIndex]
         }
         exec(cmd.cmd, {async: cmd.async, long: cmd.long})
-      }, REPEAT_DELAY)
+      }, holdCmd.delay || REPEAT_DELAY)
       return
     }
     clearInterval(holdInterval)

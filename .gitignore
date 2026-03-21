@@ -3,5 +3,6 @@ node_modules/
 # Volumio has old npm version so no sense to keep lock file here
 package-lock.json
 selected-playlist.txt
+screen.txt
 
 *.log
