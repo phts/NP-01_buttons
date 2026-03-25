@@ -1,8 +1,60 @@
 # PHTS NP-01: buttons
 
-Handlers for front panel buttons used by [PHTS NP-01].
+Event handlers of buttons on a front panel of [PHTS NP-01].
 
 :warning: Some of those commands also used by [IR controller].
+
+## Current mappings
+
+![](https://image.easyeda.com/pullimage/P1ExBecBeSxIv2muLd6SAAzfSfF7M1A6Ks2ER6qd.png)
+
+<table>
+  <thead><tr>
+    <th rowspan=2>Name</th>
+    <th rowspan=2>Short press</th>
+    <th colspan=2>Long press</th>
+  </tr>
+  <tr>
+    <th>While playing</th>
+    <th>While paused</th>
+  </tr><thead>
+  <tbody>
+    <tr>
+      <td><code>SHUTDOWN</code></td>
+      <td>Gracefully shutdown the device</td>
+      <td colspan=2>Reboot the device</td>
+    </tr>
+    <tr>
+      <td><code>□</code></td>
+      <td>Toggle screen modes: "Track info", "VU meter", "Screensaver"</td>
+      <td colspan=2>
+      <table>
+      <tr><th colspan=3>Current screen mode</th></tr>
+      <tr><th>Track info</th><th>VU meter</th><th>Screensaver</th></tr>
+      <tr><td colspan=2>Toggle repeat/random track mode</td><td>Toggle background image</td></tr>
+      </table>
+      </td>
+    </tr>
+    <tr>
+      <td><code>▶ / ⏸</code></td>
+      <td>Play or pause</td>
+      <td>Stop after current track</td>
+      <td>Play selected playlist</td>
+    </tr>
+    <tr>
+      <td><code>⏮</code></td>
+      <td>Jump to the beginning of the current track or to the previous track</td>
+      <td>Rewind 10 seconds</td>
+      <td>Select previous playlist</td>
+    </tr>
+    <tr>
+      <td><code>⏭</code></td>
+      <td>Jump to next track</td>
+      <td>Fast forward 10 seconds</td>
+      <td>Select next playlist</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Install
 
